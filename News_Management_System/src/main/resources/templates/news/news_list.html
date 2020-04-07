@@ -1,0 +1,94 @@
+<#assign basePath=request.contextPath />
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="${basePath}/static/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="${basePath}/static/bootstrap/css/bootstrap.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="${basePath}/static/assets/js/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="${basePath}/static/assets/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="padding:0px; margin:0px;">
+ <ul class="breadcrumb" style="  margin:0px; " >
+    	<li><a href="#">系统管理</a></li>
+        <li>新闻列表</li>
+    </ul>
+</div>
+<form class="form-horizontal" action="${basePath}/news/list" method="post" >
+<div class="row alert alert-info"  style="margin:0px; padding:3px;" >
+
+	<div class="col-sm-1" >条件:</div>
+    <div class="col-sm-2">标题名称:</div>
+    <div class="col-sm-3">
+    	<input type="text" name="newsTitle"  class="form-control input-sm"/>
+    </div>
+    <input type="submit"   class="btn btn-danger"   value="查询"/>
+    <input type="button"   class="btn btn-success"   value="添加" onClick="javascript:window.location='${basePath}/newsAdd'"/>
+
+</div>
+<div class="row" style="padding:15px; padding-top:0px; ">
+	<table class="table  table-condensed table-striped">
+    	<tr>
+    		<th>编号</th>
+        	<th>新闻标题</th>
+            <th>新闻来源</th>
+            <th>新闻作者</th>
+            <th>新闻内容</th>
+            <th>新闻种类</th>
+            <th>发布时间</th>
+            <th>操作</th>
+        </tr>
+        <#if newslist?exists> 
+	        <#list newslist as news> 
+	 			<tr>
+		        	<td>${news_index+1}</td>
+		            <td><#if news.newsTitle?length lt 20>
+		            	${news.newsTitle}
+		            	<#else>
+		            	${news.newsTitle?substring(0,20)}
+		            </#if></td>
+		            <td>${news.newsOrign}</td>
+		            <td>${news.newsAuthor}</td>
+		            <td><#if news.newsContent?length lt 20>
+		            	${news.newsContent}
+		            	<#else>
+		            	${news.newsContent?substring(0,20)}...	
+		            </#if></td>
+		            <td>${(news.categoryName)!""}</td>
+		            <td>${news.createTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+		            <td>
+		            	<a  href="${basePath}/news/findNewsById/${news.newsId}">修改</a>
+		                <a  href="javascript:void(0)" onclick="deleteNews(${news.newsId})">删除</a>
+		            </td>
+	        	</tr>
+			</#list> 
+		</#if>
+    </table>
+</div>
+</form>
+<script type="text/javascript">
+function deleteNews(newsId) {
+	confirm_=confirm("确定要删除此新闻吗？");
+	if(confirm_){
+		$.ajax({
+	        url: '${basePath}/news/delete',
+	        type: 'POST',
+	        data: {
+	        	"newsId":newsId
+	        },
+	        success: function (res) {
+	            alert(res.message);
+	            location.href=location.href;
+	        }
+	    });
+	}
+};
+</script>
+</body>
+</html>

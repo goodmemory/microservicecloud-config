@@ -1,0 +1,99 @@
+<#assign basePath=request.contextPath />
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="${basePath}/static/assets/css/bootstrap.min.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="${basePath}/static/js/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="${basePath}/static/assets/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div style="padding:0px; margin:0px;">
+ <ul class="breadcrumb" style="  margin:0px; " >
+    	<li><a href="#">系统管理</a></li>
+        <li>用户管理</li>
+        <li>角色变更</li>
+    </ul>
+</div>
+
+<form action="${basePath}/user/updateRoleByUserId" method="post" class="form-horizontal">
+
+    <h5 class="page-header alert-info" style="padding:10px; margin:0px; margin-bottom:5px;">基本信息</h5>
+    <input type="hidden" value="${user.userId}" name="userId">
+	<div class="row">
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">编号</label>
+                <div class="col-sm-9">
+                	<p class="form-control-static">${user.userId}</p>
+                </div>
+            </div>
+        
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">用户名</label>
+                <div class="col-sm-9">
+                	<p class="form-control-static">${user.username}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 开始2 -->
+	<div class="row">
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">年龄</label>
+                <div class="col-sm-5">
+                	<p class="form-control-static">${user.userAge}</p>
+                </div>
+            </div>
+        
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">性别</label>
+                <div class="col-sm-4">
+                	<p class="form-control-static"><#if user.userSex==1>男<#elseif user.userSex==2>女</#if></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束2 -->
+    <!-- 开始3 -->
+	<div class="row">
+ 
+        <div class="col-sm-5">
+            <div class="form-group">
+            		<label class="col-sm-3 control-label">角色</label>
+                <div class="col-sm-6">
+                		<select name="roleId" class="form-control input-sm" >
+                			<#list rolelist as role>
+                				<option value="${role.roleId}" <#if role.roleId==user.roleId>selected</#if>>${role.roleName}</option>
+                			</#list>
+                        	
+                        </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束3 -->
+   	<div class="row">
+    	<div class="col-sm-5 col-sm-offset-4">
+          	<input type="submit" class="btn btn-success" value="角色变更"/>
+          	
+            <a href="${basePath}/user/listUserRole" class="btn btn-warning">取消</a>
+          
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

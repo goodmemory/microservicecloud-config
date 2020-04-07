@@ -1,0 +1,66 @@
+server:
+  tomcat:
+    accesslog:
+      directory: 
+    uri-encoding: 
+  port: 8060
+  servlet:
+    context-path: /news_system
+    
+    
+mybatis: 
+  type-aliases-package: com.myq.model
+  mapper-locations: classpath:/mapper/*.xml
+  
+  
+spring:
+  application:
+    name: freemarker
+  freemarker:
+    request-context-attribute: request
+    # 禁用模板缓存
+    cache: false
+    # 编码格式
+    charset: UTF-8
+    # freemarker模板后缀 默认是 .ftl
+    suffix: .html
+    # 是否为此技术启用MVC视图分辨率。
+    enabled: true
+    # Content-Type值
+    content-type: text/html
+    # 模板加载路径 按需配置 ,默认路径是 classpath:/templates/
+    template-loader-path: classpath:/templates/
+    # 设置静态文件路径，js,css等
+  resources:
+    static-locations:
+    - classpath:/static/**,classpath:/templates/**
+  servlet:
+    multipart:
+     enabled: true
+     max-file-size: 20MB
+     max-request-size: 200MB
+          
+  redis:
+    host: 127.0.0.1
+    password: 123456
+    port: 6379
+    timeout: 50
+    jedis:
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+        #链接池中最小空闲连接
+        min-idle: 0
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/menu?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    
+   

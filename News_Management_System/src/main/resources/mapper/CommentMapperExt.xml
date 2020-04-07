@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myq.dao.CommentMapperExt" >
+  <resultMap id="BaseResultMap" type="com.myq.model.Comment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment_content" property="commentContent" jdbcType="VARCHAR" />
+    <result column="news_title" property="newsTitle" jdbcType="VARCHAR" />
+    <result column="news_id" property="newsId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="findComment" parameterType="com.myq.model.Comment" resultMap="BaseResultMap">
+  	select a.news_title,b.comment_id,b.comment_content,b.create_time,c.username  
+  	from news a,`comment` b ,`user` c 
+  	<where>
+  			and a.news_id=b.news_id and b.user_id=c.user_id	
+  		<if test="newsTitle!=null and newsTitle!=''">
+  			and a.news_title like '%${newsTitle}%'
+  		</if>
+  	</where> 
+  	order by b.create_time desc
+  </select>
+  <select id="findCommentByNewsId" parameterType="int" resultMap="BaseResultMap">
+  	select a.comment_content,a.create_time,b.username
+	from comment a
+	left join user b
+	on a.user_id=b.user_id
+	where a.news_id=#{newsId}
+	order by comment_id desc
+  </select>
+</mapper>

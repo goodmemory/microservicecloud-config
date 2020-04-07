@@ -1,0 +1,81 @@
+<#assign basePath=request.contextPath />
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="${basePath}/static/assets/css/bootstrap.min.css">
+<script src="${basePath}/static/assets/js/jquery.min.js"></script>
+<style type="text/css">
+	/* #1{
+		border-radius: 6px;
+		font-size: 20px;
+		padding:10px 5px 5px 280px;
+	} */
+</style>
+</head>
+<body>
+	<form action="${basePath}/comment/add" method="post" class="form-horizontal">
+	<div class="form-horizontal">
+	 <div class="row">
+    	<div style="padding:10px 5px 5px 80px;">
+        	<div class="form-group">
+        	<label class="col-sm-3 control-label">发表评论：</label>
+                <div class="col-sm-6">
+                	 <#if Session["username"]?exists>
+                	 	<textarea class="form-control" placeholder="请输入评论！" name="newsContent"></textarea>
+                	 <#else>
+                	 	<textarea class="form-control" style="color: #EBEBEB; text-align:center" name="newsContent">您没有登录，不能发表评论，请先登录！</textarea>
+                	 </#if>
+                </div>
+            </div>
+        </div>
+       </div>
+    <div class="row">
+    	<div style="padding:10px 5px 5px 880px;">
+    	 	<input  type="button" class="btn" id="btn" value="发布"/>
+        	<input type="reset" class="btn" value="取消">
+        </div>
+    </div>
+   	</div>
+	</form>
+
+	<p style="font-size: 20px;padding:10px 5px 5px 280px;">全部评论</p>
+	<hr style="width:700px;">
+	<#if commentlist?exists> 
+	        <#list commentlist as com> 
+	        	<div >
+					<div>
+						<span style="padding:10px 5px 5px 280px;color: #379be9">${com.username}:</span> 
+						<span style=";color: #DCDCDC">${com.createTime?string("yyyy-MM-dd HH:mm:ss")}</span>
+						<div style="padding:10px 5px 5px 280px;">
+							${com.commentContent}
+						</div>
+					</div><br>
+				</div>
+	        </#list>
+	</#if>
+<script type="text/javascript">
+
+$("#btn").click(function() {
+    $.ajax({
+       url: '${basePath}/comment/add',
+       type: 'POST',
+       data: {
+    	   	'commentContent':$("textarea[name='newsContent']").val(),
+    	   	'newsId':${news.newsId}
+        },
+       success: function (res) {
+    	   if(res.status==222){
+    		   location.href=location.href;
+    	   }else{
+        	   alert(res.message);
+           }
+    	   
+       }
+   }); 
+});
+</script>
+</body>
+</html>

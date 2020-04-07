@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myq.dao.RoleMapperExt">
+  <resultMap id="BaseResultMap" type="com.myq.model.Role">
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_level" jdbcType="INTEGER" property="roleLevel" />
+  </resultMap>
+  <select id="findAllByRole" parameterType="com.myq.model.Role" resultMap="BaseResultMap">
+  	select * from role 
+  	<where>
+  		<if test="roleName!=null and roleName!=''">
+  			and role_name like '%${roleName}%'
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="findRoleById" parameterType="int" resultMap="BaseResultMap">
+  	select * from role where role_id=#{roleId}
+  </select>
+  
+</mapper>

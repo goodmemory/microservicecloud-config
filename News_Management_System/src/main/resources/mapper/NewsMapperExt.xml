@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myq.dao.NewsMapperExt" >
+  <resultMap id="BaseResultMap" type="com.myq.model.News" >
+    <id column="news_id" property="newsId" jdbcType="INTEGER" />
+    <result column="news_title" property="newsTitle" jdbcType="VARCHAR" />
+    <result column="news_image" property="newsImage" jdbcType="VARCHAR" />
+    <result column="news_orign" property="newsOrign" jdbcType="VARCHAR" />
+    <result column="news_author" property="newsAuthor" jdbcType="VARCHAR" />
+    <result column="news_content" property="newsContent" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_edit_time" property="lastEditTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="findNewsByTitle" parameterType="string" resultMap="BaseResultMap">
+  	select news_title,news_image,news_orign,news_author,news_content from news 
+  	where news_title like '%${_parameter}%'
+  </select>
+  <select id="findNews" parameterType="com.myq.model.News" resultMap="BaseResultMap">
+  	select a.news_id, a.news_title,a.news_orign,a.news_author,a.news_content,a.create_time,b.category_name from news a 
+  	left join category b on a.category_id=b.category_id
+  	<where>
+  		<if test="newsTitle!=null and newsTitle!=''">
+  			and a.news_title like '%${newsTitle}%'
+  		</if>
+  		<if test="userId!=null">
+  			and a.user_id=#{userId}
+  		</if>
+  	</where>
+  	order by a.create_time DESC
+  </select>
+  <select id="findNewsByCategory" parameterType="int" resultMap="BaseResultMap">
+  	select news_id, news_title,news_image,news_orign,news_author,news_content from news n,category c where n.category_id=c.category_id and c.category_id=#{categoryId}
+  </select>
+  <delete id="deleteNewsById" parameterType="int">
+  	delete from news where news_id=#{newsId}
+  </delete>
+  <!-- 根据新闻分类获取新闻的总数 -->
+  <select id="findCountByCategoryId" parameterType="int" resultType="int">
+  	select count(*) from news
+  	<where>
+  		<if test="categoryId!=null and categoryId!=''">
+  			and category_id=#{categoryId}
+  		</if>
+  	</where>
+  </select>
+  <!-- 获取新闻的总数 -->
+  <select id="findByCount" resultType="int">
+  	select count(*) from news
+  </select>
+  
+  <select id="findNewsAndCategoryById" parameterType="int" resultMap="BaseResultMap">
+  	select a.*,b.category_name 
+  	from news a,category b 
+  	where a.category_id=b.category_id and a.news_id=#{newsId}
+  </select>
+  <select id="findNewsById" parameterType="int" resultMap="BaseResultMap">
+  	select *
+  	from news
+  	where news_id=#{newsId}
+  </select>
+</mapper>

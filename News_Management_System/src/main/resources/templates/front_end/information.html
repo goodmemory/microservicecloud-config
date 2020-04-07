@@ -1,0 +1,92 @@
+<#assign basePath=request.contextPath />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闻行天下</title>
+    <link href="${basePath}/static/assist/css/bootstrap.min.css">
+    <style>
+        #bs-example-navbar-collapse-1 ul li a{
+            font-size: 16px;
+        }
+        .newsModule{
+            position: relative;
+            height: 800px;
+        }
+        #topNavbar{
+            margin-left: 20px;
+        }
+        .newsStyle{
+            position: relative;
+            left: 30px;
+            /*border: 1px solid black;*/
+            height: 165px;
+            width: 850px;
+        }
+        .newsStyle h2 a{
+            font-size: 22px;
+            color: #004276;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .newsStyle h2 a:hover{
+            color: #ff5134;
+        }
+        .newsStyle p{
+            font-size: 14px;
+            color: #004276;
+            line-height: 28px;
+            width: 500px;
+            height: 95px;
+           position: absolute;
+            left: 160px;
+            top: 50px;
+        }
+        .newsStyle img{
+            width: 150px;height: 95px;
+        display: inline;position: absolute;
+        }
+    </style>
+</head>
+<body>
+<#include "nav.html">
+<div class="newsModule" style="margin: 0 auto;width: 1000px">
+  <#if listNews?exists>
+  	<#list listNews as news>
+  		<div class="newsStyle">
+		  <h2 ><a href="frontNews/show?newsId=${news.newsId}">${news.newsTitle}</a></h2>
+	      <img style="width: 150px;height: 95px" src="${basePath}${news.newsImage}">
+	      <p><#if news.newsContent?length lt 100>
+	           	${news.newsContent}
+	           	<#else>
+	           	${news.newsContent?substring(0,100)}...	
+		   </#if></p>
+		</div>
+		<hr>
+  	</#list>
+  </#if>
+</div>
+<#include "footer.html">
+<script src="${basePath}/static/assist/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    var topNavbar = document.getElementById("topNavbar");
+    var filter = function (node) {
+        return node.tagName.toLowerCase()=="li" ? NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP;
+    }
+    var walker =document.createTreeWalker(topNavbar,NodeFilter.SHOW_ELEMENT,filter,false);
+    var node = walker.nextNode();
+    while (node!=null){
+        node.onmousemove=function () {
+            $(this).addClass("active");
+        };
+        node.onmouseout = function () {
+            $(this).removeClass("active");
+        }
+        node=walker.nextNode();
+    }
+</script>
+</body>
+</html>

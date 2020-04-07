@@ -1,0 +1,157 @@
+<#assign basePath=request.contextPath />
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="${basePath}/static/assist/css/bootstrap.min.css">
+	<script src="${basePath}/static/assets/js/jquery.min.js"></script>
+    <style>
+        #bs-example-navbar-collapse-1 ul li a{
+            font-size: 16px;
+        }
+        #topNavbar{
+            margin-left: 20px;
+        }
+        li{
+        	list-style-type:none;
+        	color: #E3E3E3;
+        	text-align: right;
+        	margin-right: 15px;
+        }
+        img{
+             width: 100%;
+            /*height: 462px;*/
+          }
+          .navbar{
+              /*margin-bottom: -10px;*/
+          }
+         #myppt{
+             margin-top: -20px;
+
+         }
+    </style>
+</head>
+<body>
+<form action="frontCate/listNews",method="post">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">新闻资讯</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav" id="topNavbar">
+                <li><a href="${basePath}/front_index">首页 <span class="sr-only">(current)</span></a></li>
+               <#if catelist?exists> 
+               		<#list catelist as cate>
+		               	<li class="nav-item">
+		                    <a class="nav-link" href="${basePath}/front_information?categoryId=${cate.categoryId}">${cate.categoryName}</a>
+		                </li>	
+	               </#list>
+               </#if>
+            </ul>
+            <#if Session["username"]?exists>
+            	<li><p class="nav-link">欢迎，${Session["username"]}</p></li>
+            	<li><a class="nav-link"  href="${basePath}/front_loginout"><span class="glyphicon glyphicon-user"></span> 退出</a></li>
+            <#else>
+            	<li><a class="nav-link"  href="${basePath}/front_login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+           		<li><a class="nav-link"  href="${basePath}/register"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+            </#if>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+</form>
+</body>
+<script type="text/javascript">
+<!-- 登录 -->
+$("#btn").click(function() {
+	var username=document.getElementById("username").value;
+	if(!username){
+		alert("用户名不能为空！");
+		return;
+	}
+	var password=document.getElementById("password").value;
+	if(!password){
+		alert("密码不能为空！");
+		return;
+	}
+    $.ajax({
+       url: '${basePath}/doLogin',
+       type: 'POST',
+       data: {
+        	'username':username,
+        	'password':password
+        },
+       success: function (res) {
+           if(res.status==0){
+        	   //index
+        	   location.href="${basePath}/front_index"
+           }else{
+        	   alert(res.message);
+           }
+       }
+   }); 
+});
+</script>
+<!-- 注册 -->
+<!-- <script type="text/javascript">
+var user={
+}
+$("#xiao-submit-button").click(function(){
+	var username=document.getElementById("username").value;
+	if(!username){
+		alert("用户名不能为空！");
+		return;
+	}
+	user.username=username;
+	var password=document.getElementById("userPassword").value;
+	if(!password){
+		alert("密码不能为空！");
+		return;
+	}
+	user.password=password;
+	var userAge=document.getElementById("userAge").value;
+	if(!userAge){
+		alert("年龄不能为空！");
+		return;
+	}
+	user.userAge=userAge;
+	var userPhone=document.getElementById("userPhone").value;
+	if(!userPhone){
+		alert("手机号码不能为空！");
+		return;
+	}
+	user.userPhone=userPhone;
+	var userAddress=document.getElementById("userAddress").value;
+	if(!userAddress){
+		alert("家庭地址不能为空！");
+		return;
+	}
+	user.userAddress=userAddress;
+	var userAge=document.getElementById("userAge").value;
+	user.userAge=userAge;
+	$.ajax({
+	       url: '${basePath}/user/registeruser',
+	       type: 'POST',
+	       contentType:"application/json",
+	       data:JSON.stringify(user),
+	       success: function (res) {
+	           if(res.status==105){
+	        	   alert(res.message);
+	        	   //返回到首页
+	        	   alert("注册成功！");
+	        	   location.href="${basePath}/front_index"
+	           }else{
+	        	   alert(res.message);
+	           }
+	       }
+	   }); 
+})
+</script> -->
+</html>

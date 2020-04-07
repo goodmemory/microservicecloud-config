@@ -1,0 +1,73 @@
+<#assign basePath=request.contextPath />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闻行天下</title>
+    <style>
+        #bs-example-navbar-collapse-1 ul li a{
+            font-size: 16px;
+        }
+        #topNavbar{
+            margin-left: 20px;
+        }
+        hr{
+        	margin-top: 20px;
+		    margin-bottom: 20px;
+		    border: 0;
+		    border-top: 1px solid #eee;
+        }
+        h3{
+            text-align: center;
+        }
+        .article{
+            width: 1200px;
+            margin: 0 auto;
+        }
+        .articleMessage{
+            margin: 0 auto;
+            width: 1200px;
+            margin-top: 15px;
+        }
+        .articleMessage p{
+            color: #858585;
+            text-align: center;
+        }
+        .passage{
+            width: 700px;
+            margin: 0 auto;
+        }
+        .passage p{
+            margin-bottom: 25px;
+            text-indent: 28px;
+            font-size: 15px;
+            line-height: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<#include "nav.html">
+
+<div class="article" ">
+    <h3>${news.newsTitle}</h3>
+    <div class="articleMessage">
+        <p>时间: ${news.createTime?string('yyyy-MM-dd hh:mm:ss')} &nbsp&nbsp&nbsp 作者: ${news.newsAuthor} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp来源:${news.newsOrign}</p>
+    </div>
+    <hr>
+    <div class="passage">
+        <img style="width: 700px;height: 400px;" src="${basePath}${news.newsImage}">
+    </div><br>
+    <div class="passage">
+        <p>${news.newsContent}</p>
+    </div>
+</div>
+<hr style="width:700px;">
+	<#include "comment.html">
+<hr style="width:700px;">
+	<#include "footer.html">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="${basePath}/static/js/bootstrap2.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

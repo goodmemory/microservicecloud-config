@@ -1,0 +1,57 @@
+<#assign basePath=request.contextPath />
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="${basePath}/static/assets/css/bootstrap.min.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="${basePath}/static/assets/js/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="${basePath}/static/assets/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div style="padding:0px; margin:0px;">
+ <ul class="breadcrumb" style="  margin:0px; " >
+    	<li><a href="#">系统管理</a></li>
+        <li>种类管理</li>
+        <li>修改种类信息</li>
+    </ul>
+</div>
+
+<form action="${basePath}/category/update" method="post" class="form-horizontal">
+
+    <h5 class="page-header alert-info" style="padding:10px; margin:0px; margin-bottom:5px;">基本信息</h5>
+	<div class="row">
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">种类编号</label>
+                <div class="col-sm-9">
+                	<input type="text" name="categoryId" value="${category.categoryId}" class="form-control input-sm" readonly="readonly" placeholder="请输入种类编号"/>
+                </div>
+            </div>
+        
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">种类名称</label>
+                <div class="col-sm-9">
+                	<input type="text" name="categoryName" value="${category.categoryName}" class="form-control input-sm" placeholder="请输入种类名称"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   	<div class="row">
+    	<div class="col-sm-3 col-sm-offset-4">
+        	<input  type="submit" class="btn btn-success" value="保存"/>
+            <a href="${basePath}/category/list" class="btn  btn-danger">取消</a>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
